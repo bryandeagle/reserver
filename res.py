@@ -130,7 +130,8 @@ class Resy:
 
 
 def readconfig():
-    with open('config.json', 'rt') as f:
+    config_file = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_file, 'rt') as f:
         return json.load(f)
 
 
