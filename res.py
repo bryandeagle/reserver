@@ -166,7 +166,7 @@ def start_logging(verbose=False):
 
 
 if __name__ == '__main__':
-    start_logging(verbose=True)
+    start_logging(verbose=False)
     if read_success():
         _LOGGER.info('Success file found - Skipping')
     else:
