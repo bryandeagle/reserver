@@ -10,6 +10,7 @@ _LOGGER.addHandler(logging.NullHandler())
 
 class Resy:
     def __init__(self, username, password, venue, party, date, times):
+        _LOGGER.info('Initializing application')
         self.headers = {
             'origin': 'https://resy.com',
             'accept-encoding': 'gzip, deflate, br',
@@ -28,20 +29,26 @@ class Resy:
         self.party = party
         self.date = date
         self.times = times
-        self.datetimes = ["{} {}".format(self.date, t) for t in self.times]
+        self.datetimes = ['{} {}'.format(self.date, t) for t in self.times]
         self.token, self.payment_method = self._login(username, password)
 
     def _login(self, username,password):
         """ Log into Resy """
         data = {'email': username, 'password': password}
         response = requests.post('https://api.resy.com/3/auth/password', headers=self.headers, data=data)
-        res_data = response.json()
-        auth_token = res_data['token']
-        payment_method = '{\"id\":' + str(res_data['payment_method_id']) + '}'
-        _LOGGER.info("Successfully logged in")
-        return auth_token, payment_method
+        
+        # Parse response
+        details = response.json()
+        if 'token' not in details:
+            _LOGGER.error(response.text)
+            raise ValueError(response.text)
+        
+        payment_method = '{\"id\":' + str(details['payment_method_id']) + '}'
+        _LOGGER.info('Successfully logged in')
+        return details['token'], payment_method
 
-    def find_table(self):
+    def search(self):
+        """Search for reservations matching desired times"""
         # Format and send request
         params = (
             ('x-resy-auth-token',  self.token),
@@ -60,6 +67,10 @@ class Resy:
             _LOGGER.error(response.text)
             raise ValueError(response.text)
         
+        # Log venue name
+        venue_name = details['results']['venues'][0]['venue']['name']
+        _LOGGER.info('Venue: {} ({})'.format(venue_name, self.venue))
+
         # Loop through returned slots to find the best one
         best_slot, best_score = None, len(self.datetimes) + 1
         for slot in details['results']['venues'][0]['slots']:
@@ -76,9 +87,9 @@ class Resy:
         return best_slot
 
     def reserve(self):
-
+        """Book a reservation"""
         # Find table
-        slot = self.find_table()
+        slot = self.search()
         if slot is None:
             return
         
@@ -140,4 +151,5 @@ def start_logging(verbose=False):
 if __name__ == '__main__':
     start_logging(verbose=True)
     resy = Resy(**readconfig())
-    resy.reserve()
+    resy.search()
+    #resy.reserve()
