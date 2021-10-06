@@ -130,3 +130,6 @@ dmypy.json
 
 # Config file
 config.json
+
+# Success file
+success
