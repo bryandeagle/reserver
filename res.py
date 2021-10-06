@@ -2,6 +2,7 @@ import requests
 import logging
 import json
 import sys
+import os
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -138,11 +139,14 @@ def start_logging(verbose=False):
     root.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
     if verbose:
+        # Create handler for stdout logging
         stdout = logging.StreamHandler(sys.stdout)
         stdout.setLevel(logging.INFO)
         stdout.setFormatter(formatter)
         root.addHandler(stdout)
-    logfile = logging.FileHandler('res.log')
+    # Create handler for log file
+    file_name = os.path.join(os.path.dirname(__file__), 'res.log')
+    logfile = logging.FileHandler(file_name)
     logfile.setLevel(logging.INFO)
     logfile.setFormatter(formatter)
     root.addHandler(logfile)
