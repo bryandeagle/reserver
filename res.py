@@ -84,12 +84,12 @@ def resy(username, password, venue, party, date, times, dont_reserve):
             if score < best_score:
                 best_slot = slot
                 best_score = score
+    
+    ################################
+    # Make Reservation
+    ################################
     if best_slot and dont_reserve == 'False':
-        _LOGGER.info('Best slot: {}'.format(best_slot['date']['start']))
-        ################################
-        # Make Reservation
-        ################################
-        
+        _LOGGER.info('Best slot: {}'.format(best_slot['date']['start']))    
         params = (  # Format and send request
             ('x-resy-auth-token', token),
             ('config_id', best_slot['config']['token']),
