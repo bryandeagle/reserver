@@ -149,7 +149,7 @@ def start_logging(verbose=False):
 
 
 if __name__ == '__main__':
-    start_logging(verbose=True)
+    start_logging(verbose=False)
     resy = Resy(**readconfig())
     resy.search()
     #resy.reserve()
