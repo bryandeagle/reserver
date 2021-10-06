@@ -9,7 +9,7 @@ _LOGGER = logging.getLogger(__name__)
 _LOGGER.addHandler(logging.NullHandler())
 
 
-def resy(username, password, venue, party, date, times, dont_reserve):
+def resy(username, password, venue, party, date, times, reserve):
     _LOGGER.info('Initializing application')
     headers = {
         'origin': 'https://resy.com',
@@ -88,7 +88,7 @@ def resy(username, password, venue, party, date, times, dont_reserve):
     ################################
     # Make Reservation
     ################################
-    if best_slot and dont_reserve == 'False':
+    if best_slot and reserve == 'True':
         _LOGGER.info('Best slot: {}'.format(best_slot['date']['start']))    
         params = (  # Format and send request
             ('x-resy-auth-token', token),
