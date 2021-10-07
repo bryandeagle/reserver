@@ -152,7 +152,8 @@ def start_logging(verbose=False):
         stdout.setFormatter(formatter)
         root.addHandler(stdout)
     # Create handler for log file
-    file_name = os.path.join(os.path.dirname(__file__), 'res.log')
+    log_file = '{}.log'.format(os.path.basename(__file__).split('.')[0])
+    file_name = os.path.join(os.path.dirname(__file__), log_file)
     logfile = logging.FileHandler(file_name)
     logfile.setLevel(logging.INFO)
     logfile.setFormatter(formatter)

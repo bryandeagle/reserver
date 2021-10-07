@@ -133,3 +133,6 @@ config.json
 
 # Success file
 success
+
+# Log file
+*.log
