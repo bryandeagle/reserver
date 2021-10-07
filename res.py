@@ -203,7 +203,7 @@ if __name__ == '__main__':
                 break
             
             # Stop trying after 10 minutes
-            if datetime.now().minute == '10':
+            if datetime.now().minute == '3':
                 break
             
             time.sleep(1)
