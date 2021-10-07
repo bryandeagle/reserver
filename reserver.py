@@ -204,10 +204,8 @@ if __name__ == '__main__':
                 break
             
             # Stop trying after 10 minutes
-            if datetime.now().minute == 3:
+            if datetime.now().minute == 10:
+                _LOGGER.info('Time Limit Reached - Exiting')
                 break
             
             time.sleep(1)
-
-    # Exit
-    _LOGGER.info('Exiting')
