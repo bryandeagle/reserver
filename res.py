@@ -169,6 +169,7 @@ if __name__ == '__main__':
     # Read verbose parameter
     verbose =  False
     if len(sys.argv) > 1 and sys.argv[1] in ['--verbose', '-v']:
+        _LOGGER.info('Verbose enabled')
         verbose = True
 
     start_logging(verbose=verbose)
