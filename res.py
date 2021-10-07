@@ -166,7 +166,12 @@ def start_logging(verbose=False):
 
 
 if __name__ == '__main__':
-    start_logging(verbose=False)
+    # Read verbose parameter
+    verbose =  False
+    if len(sys.argv) > 1 and sys.argv[1] in ['--verbose', '-v']:
+        verbose = True
+
+    start_logging(verbose=verbose)
     if read_success():
         _LOGGER.info('Success file found - Skipping')
     else:
